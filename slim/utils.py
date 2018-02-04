@@ -14,6 +14,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 import json
+import six
 import re
 import os
 
@@ -117,11 +118,11 @@ def quantizer_map(qmap_file):
 
     # change strings in qmap into quantizer objects
     for key in qmap:
-      if type(qmap[key]) is str:
-        # get the quantizer parameters
-        quantizer_type, arg_list = split_quantizer_str(qmap[key])
-        # generate quantizer object
-        qmap[key]=quantizer_selector(quantizer_type, arg_list)
+        if isinstance(qmap[key], six.string_types):
+            # get the quantizer parameters
+            quantizer_type, arg_list = split_quantizer_str(qmap[key])
+            # generate quantizer object
+            qmap[key]=quantizer_selector(quantizer_type, arg_list)
     return qmap
 
 def count_trainable_params(var_name):
